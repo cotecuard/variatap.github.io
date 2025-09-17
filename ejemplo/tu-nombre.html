@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <link rel="icon" href="../Logo VariaTap.png" type="image/png">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tu Nombre</title> 
+  <meta name="description" content="Links y contacto" />
+  <style>
+    :root{--bg-solid:#1b1530; --bg-grad1:#2a1f54; --bg-grad2:#221b43; --bg-grad3:#170f2c; --card:#251b44; --text:#efeaff; --muted:#b9b1e3; --primary:#b693ff; --primary-rgb:182,147,255; --ring:0 0 0 3px rgba(182,147,255,.28); --radius:22px; --link-bg:#231a3f; --border:rgba(239,234,255,.12); --button1:#c6a8ff; --button2:#a98cff; --button-text:#130d26; }
+    *{box-sizing:border-box} html,body{height:100%}
+    body{ margin:0; font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 1200px at 10% 0%, var(--bg-grad1) 0%, transparent 55%),
+        radial-gradient(800px 800px at 90% 10%, var(--bg-grad2) 0%, transparent 60%),
+        linear-gradient(180deg, var(--bg-grad3) 0%, var(--bg-solid) 100%);
+      background-attachment:fixed; display:flex; align-items:stretch; justify-content:center; padding:20px;
+    }
+    .wrap{ width:min(560px,100%); display:flex; flex-direction:column; min-height:100svh; gap:22px; }
+    header{ display:flex; flex-direction:column; align-items:center; gap:10px; padding-top:14px; text-align:center; }
+    .avatar{ width:136px; height:136px; border-radius:50%; border:6px solid rgba(255,255,255,.08);
+      box-shadow:0 10px 30px rgba(0,0,0,.45), inset 0 0 0 2px rgba(255,255,255,.06);
+      object-fit:cover; background:#222;
+    }
+    h1{ font-size:1.5rem; margin:8px 0 0 0; font-weight:700; letter-spacing:.2px; }
+    .subtitle{ margin:0; font-size:.98rem; color:var(--muted); line-height:1.4; }
+    .card{ background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid var(--border); border-radius:var(--radius); padding:18px;
+      box-shadow:0 8px 30px rgba(0,0,0,.35); backdrop-filter:blur(6px);
+    }
+    .company-logo {
+        max-width: 160px;
+        max-height: 80px;
+        margin-top: 8px;
+        object-fit: contain;
+        opacity: 0.9;
+        }
+    .links{ display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; }
+    .link{ display:flex; align-items:center; gap:10px; padding:14px 16px; text-decoration:none; color:var(--text);
+      background: var(--link-bg); border:1px solid var(--border); border-radius:16px;
+      transition:transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease;
+    }
+    .link:hover{ transform:translateY(-2px); border-color:var(--primary); box-shadow:0 6px 18px rgba(var(--primary-rgb), .18); }
+    .link:focus-visible{ outline:none; box-shadow:var(--ring); border-color:var(--primary); }
+    .link span{ font-weight:600; letter-spacing:.2px; }
+    .icon{ width:22px; height:22px; flex:0 0 auto; display:inline-block; }
+    .footer-space{ flex:1 1 auto; }
+    .download{ position:sticky; bottom:12px; display:none; text-align:center; padding:16px 18px; border-radius:18px;
+      background: linear-gradient(180deg, var(--button1), var(--button2)); color: var(--button-text); text-decoration:none; font-weight:800; letter-spacing:.4px;
+      border:1px solid var(--border); box-shadow:0 10px 30px rgba(var(--primary-rgb),.45);
+      transition:transform .15s ease, filter .15s ease, box-shadow .15s ease;
+    }
+    .download:hover{ transform:translateY(-2px); filter:brightness(1.05); box-shadow:0 14px 36px rgba(var(--primary-rgb), .45); }
+    .download:focus-visible{ outline:none; box-shadow:var(--ring),0 10px 30px rgba(var(--primary-rgb), .45); }
+    .note{ display:none; text-align:center; color:var(--muted); font-size:.8rem; margin-top:6px; }
+    .spacer{ height:6px; }
+    .corner-logo{ position:fixed; top:6px; left:10px; width:36px; height:36px; z-index:999; opacity:.75; transition:opacity .15s ease;}
+    .corner-logo img{ max-width:30px; opacity:75; transition:filter .2s ease; filter:drop-shadow(0 0 3px white); drop-shadow(0 0 6px white); }
+    .corner-logo:hover{ opacity:1; }
+  </style>
+</head>
+<body>
+  <main class="wrap" role="main">
+    <header aria-label="Perfil">
+      <img id="avatar" class="avatar" src="avatar.jpg" alt="Foto de perfil" />
+      <h1 id="name">Tu Nombre</h1>
+      <p id="subtitle" class="subtitle">Tu descripción corta o subtítulo.</p>
+      <img id="companyLogo" class="company-logo" src="" alt="Logo de la empresa" style="display:none;" />
+    </header>
+
+    <section class="card" aria-label="Enlaces">
+      <div id="links" class="links"></div>
+    </section>
+
+    <div class="footer-space"></div>
+
+    <a id="contactBtn" class="download" href="#" download aria-label="Descargar contacto">  Add to Contacts</a>
+    <div id="contactNote" class="note">Tap ‘Add to Contacts’ to save it.</div>
+    <div class="spacer"></div>
+    <a href="https://variatap.com" target="_blank" rel="noopener noreferrer" class="corner-logo">
+    <img src="../Logo VariaTap.png" alt="Logo VariaTap" />
+    </a>
+
+  </main>
+
+  <!-- === CONFIG (se rellena desde JSON) ================================ -->
+  <script id="config" type="application/json">
+{
+  "name": "Tu Nombre",
+  "title": "Tu Nombre",
+  "subtitle": "Tu descripción",
+  "avatar": "avatar.jpg",
+  "companyLogo": "empresa.png",
+  "email": "tucorreo@tumail.com",
+  "phones": {
+    "cell": "+520000000000",
+    "work": "+521111111111",
+    "home": ""
+  },
+  "socials": {
+    "instagram": "https://www.instagram.com",
+    "x": "https://www.x.com",
+    "tiktok": "https://www.tiktok.com",
+    "youtube": "https://www.youtube.com",
+    "linkedin": "https://www.linkedin.com",
+    "facebook": "https://www.facebook.com",
+    "website": "https://variatap.com",
+    "whatsapp": "https://wa.me"
+  },
+  "contactVcf": "contacto.vcf",
+  "outputFolderName": "Ejemplo",
+  "theme": "lavender"
+}
+  </script>
+  <!-- ================================================================== -->
+
+  <script>
+    const ICONS = {
+      instagram: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3.5A5.5 5.5 0 1 1 6.5 13A5.5 5.5 0 0 1 12 7.5Zm0 2A3.5 3.5 0 1 0 15.5 13A3.5 3.5 0 0 0 12 9.5ZM18 6.2a1 1 0 1 1-1.999.002A1 1 0 0 1 18 6.2Z"/></svg>',
+      x: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.47 10.87 20.79 3h-1.73l-6.34 6.87L7.59 3H2.2l7.76 11.12L2.2 21h1.73l6.73-7.3L16.41 21h5.39l-8.33-10.13ZM11.84 12.87l-.78-1.11L4.68 4.3h2.34l4.99 7.07.78 1.11 6.66 9.44h-2.34l-5.27-7.05Z"/></svg>',
+      tiktok: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21 8.5a7.5 7.5 0 0 1-5.2-2.15V16a6 6 0 1 1-6-6 6.1 6.1 0 0 1 1 .08V12a3.5 3.5 0 1 0 3.5 3.5V2h3.35A4.5 4.5 0 0 0 21 6.5Z"/></svg>',
+      youtube: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23 12s0-3.4-.44-5.03a3.13 3.13 0 0 0-2.2-2.2C18.73 4.33 12 4.33 12 4.33s-6.73 0-8.36.44a3.13 3.13 0 0 0-2.2 2.2C1 8.6 1 12 1 12s0 3.4.44 5.03a3.13 3.13 0 0 0 2.2 2.2c1.63.44 8.36.44 8.36.44s6.73 0  8.36-.44a3.13 3.13 0 0 0 2.2-2.2C23 15.4 23 12 23 12ZM9.75 15.5v-7l6 3.5Z"/></svg>',
+      linkedin: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5.001 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3zm7 0h3.8v1.64h.05c.53-.95 1.84-1.95 3.79-1.95 4.05 0 4.8 2.46 4.8 5.66V21h-4v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21h-4z"/></svg>',
+      facebook: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14 4h-2.2C9.7 4 8 5.7 8 7.8V10H6v3h2v7h3v-7h2.2l.8-3H11V7.8c0-.44.36-.8.8-.8H14V4z"/></svg>',
+      website: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm0 2c1.1 0 2.13.3 3.02.82A14.8 14.8 0 0 0 12 9a14.8 14.8 0 0 0-3.02-6.18A7.96 7.96 0 0 1 12 4ZM8.6 5.14A12.8 12.8 0 0 1 11 9H5.18a8.02 8.02 0 0 1 3.42-3.86ZM4.07 11H11v2H4.07a8.02 8.02 0 0 1 0-2ZM5.18 15H11a12.8 12.8 0 0 1-2.4 3.86A8.02 8.02 0 0 1 5.18 15Zm6.82 0h6.75a8.02 8.02 0 0 1-3.42 3.86A12.8 12.8 0 0 1 12 15Zm0-4a12.8 12.8 0 0 1 2.4-3.86A8.02 8.02 0 0 1 18.82 11H12Zm7.93 0c.09.66.09 1.34 0 2H13v-2h6.93Z"/></svg>',
+      whatsapp: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.7 14.3c-.3-.2-1.8-.9-2.1-1s-.5-.2-.7.2-.8 1-1 1.2c-.2.2-.4.2-.7.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.4.5-.6.2-.2.3-.4.4-.6.1-.2 0-.5 0-.6s-.7-1.7-1-2.3c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.6s1.2 3 1.3 3.2c.2.3 2.3 3.5 5.6 4.8.8.3 1.4.5 1.9.6.8.3 1.5.2 2 .1.6-.1 1.8-.7 2.1-1.3.3-.6.3-1.2.2-1.3 0-.1-.3-.2-.6-.4zM12 2a10 10 0 0 0-8.9 14.6L2 22l5.6-1.5A10 10 0 1 0 12 2z"/></svg>'
+    };
+    const ORDER = ["instagram","x","tiktok","youtube","linkedin","facebook","website","whatsapp"];
+
+    function normalizeSocials(raw){
+        raw = raw || {};
+        return {
+            instagram: raw.instagram || "",
+            x: raw.x || raw.twitter || "",
+            tiktok: raw.tiktok || "",
+            youtube: raw.youtube || "",
+            linkedin: raw.linkedin || "",
+            facebook: raw.facebook || raw.facebool || raw.fb || "",
+            website: raw.website || raw.web || raw.portfolio || "",
+            whatsapp: raw.whatsapp || ""
+        };
+    }
+    function createLink(network, url, label) {
+      const a = document.createElement("a");
+      a.className = "link";
+      a.href = url; a.target = "_blank"; a.rel="noopener noreferrer";
+      a.setAttribute("aria-label", label);
+      a.innerHTML = `${ICONS[network] ?? ""}<span>${label}</span>`;
+      return a;
+    }
+
+    (async () => {
+      let cfg = {};
+      try {
+        cfg = JSON.parse(document.getElementById("config").textContent);
+      } catch (e) {
+        console.error("Config inline inválida:", e);
+      }
+
+      document.getElementById("name").textContent = (cfg.name || "Tu Nombre").replace(/^@+/, "");
+      document.getElementById("subtitle").textContent = cfg.subtitle || "";
+      const avatar = document.getElementById("avatar");
+      avatar.src = cfg.avatar || "avatar.jpg";
+      avatar.alt = `Foto de perfil de ${cfg.name || "usuario"}`;
+
+      const logo = document.getElementById("companyLogo");
+      if (cfg.companyLogo && cfg.companyLogo.trim() !== "") {
+        logo.src = cfg.companyLogo;
+        logo.style.display = "block";
+      } else {
+        logo.style.display = "none";
+      }
+
+      const linksEl = document.getElementById("links");
+      linksEl.innerHTML = "";
+      const socials = normalizeSocials(cfg.socials);
+      const labels = Object.assign({
+        instagram:"Instagram", x:"X / Twitter", tiktok:"TikTok", youtube:"YouTube",
+        linkedin:"LinkedIn", facebook:"Facebook", website:"Web / Portfolio", whatsapp:"WhatsApp"
+      }, cfg.labels || {});
+      ORDER.forEach(net => {
+        const url = (socials[net] || "").trim();
+        if (url) linksEl.appendChild(createLink(net, url, labels[net] || net));
+      });
+
+      const btn = document.getElementById("contactBtn");
+      const note = document.getElementById("contactNote");
+      const vcf = (cfg.contactVcf || "").trim();
+      if (vcf) {
+        btn.href = vcf;
+        btn.download = vcf.split("/").pop() || "contacto.vcf";
+        btn.style.display = "block";
+        note.style.display = "block";
+      }
+    })();
+  </script>
+</body>
+</html>
