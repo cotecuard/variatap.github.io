@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VARIATAP – Tarjeta NFC</title>
+  <title>VariaTap – Tarjeta NFC</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
@@ -49,8 +49,12 @@
       transition: transform 0.9s cubic-bezier(.2,.7,.1,1);
       border-radius: 18px;
       box-shadow: 0 18px 40px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.06);
+      cursor: pointer; /* para indicar que se puede hacer click */
+      touch-action: manipulation;
     }
-    .card3d:hover { transform: rotateY(180deg); }
+    /* Giro controlado por clase al hacer click */
+    .card3d.is-flipped { transform: rotateY(180deg); }
+
     .face {
       position: absolute; inset: 0;
       background-position: center; background-size: cover; background-repeat: no-repeat;
@@ -128,20 +132,26 @@
       transition: transform .1s ease; z-index: 50;
     }
     .whatsapp-float:hover { transform: translateY(-1px); }
+
+    /* Accesibilidad / reduce motion */
+    @media (prefers-reduced-motion: reduce) {
+      .card3d { transition: transform 0.01s linear; }
+    }
   </style>
   <script src="https://kit.fontawesome.com/a2e0e9c6b5.js" crossorigin="anonymous"></script>
 </head>
 <body>
   <header>
     <img src="variataplogofull white.png" alt="Logo VariaTap">
-    <h1>VARIATAP</h1>
+    <h1>VariaTap</h1>
     <p>Tarjeta NFC con tus <strong>datos</strong> (no de diseño) • Frente y reverso</p>
   </header>
 
   <div class="wrap">
     <section class="showcase">
       <div class="stage">
-        <div class="card3d" aria-label="Tarjeta NFC VariaTap (frente y reverso)">
+        <div class="card3d" aria-label="Tarjeta NFC VariaTap (frente y reverso)"
+             role="button" tabindex="0" aria-pressed="false">
           <div class="face front"></div>
           <div class="face back"></div>
           <div class="rim"></div>
@@ -186,5 +196,30 @@
      aria-label="WhatsApp" target="_blank" rel="noopener">
     <i class="fab fa-whatsapp" aria-hidden="true"></i>
   </a>
+
+  <!-- JS: alterna el giro con click o teclado -->
+  <script>
+    (function () {
+      const card = document.querySelector('.card3d');
+      if (!card) return;
+
+      function toggleFlip() {
+        const flipped = card.classList.toggle('is-flipped');
+        card.setAttribute('aria-pressed', flipped ? 'true' : 'false');
+      }
+
+      card.addEventListener('click', toggleFlip);
+
+      // Soporte teclado: Enter / Espacio
+      card.addEventListener('keydown', (e) => {
+        const isEnter = e.key === 'Enter';
+        const isSpace = e.key === ' ' || e.code === 'Space';
+        if (isEnter || isSpace) {
+          e.preventDefault();
+          toggleFlip();
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
